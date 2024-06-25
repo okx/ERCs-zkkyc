@@ -15,7 +15,7 @@ requires: 165
 
 Know Your Customer (KYC) is an essential element in numerous services,
 ensures customer data complies with laws and regulations. This proposal
-aims to create a standard that can be adopted by KYC holders and
+aims to create a standard that can be adopted by KYC Issuers and
 third-party decentralized applications (dApps), enabling on-chain
 verification and reducing privacy leaks. We also elaborate the
 specification and discusses the potential expansion based on specific
@@ -30,22 +30,13 @@ security.
 
 ## Motivation
 
-KYC is a critical component in various services, aimed at ensuring that
-customer identity information meets legal and regulatory requirements.
-By using existing KYC information, customers can easily complete
-third-party personhood, age, and nationality verification. KYC
-information is highly confidential, and it is essential to trust that a
-client\'s KYC information meets the requirements (also known as claim)
-without disclosing the details to third parties. This is a crucial step
-in simplifying the customer onboarding process.
+KYC is critical for ensuring that customer identity information meets legal and regulatory requirements. It simplifies the customer onboarding process by allowing existing KYC information to be reused for third-party verification of personhood, age, and nationality without disclosing details to third parties.
 
-The motivation behind this proposal is to create a standard that can be
-adopted by KYC holders and third-party dApps. By enabling on-chain
-verification, the possibility of privacy leaks can be greatly reduced.
-This proposal fosters trust in customers by guaranteeing the privacy of
-their KYC information, thereby enabling them to confidently participate
-in a wider range of on-chain and off-chain activities that require the
-use of their KYC information.
+As the Web3 ecosystem evolves, the lack of standardization among Zero-Knowledge-based KYC issuers presents significant challenges. Users cannot seamlessly reuse KYC credentials across different On-chain projects, leading to repeated and fragmented verification processes. This fragmentation increases development costs and results in an inconsistent user experience.
+
+This proposal aims to create a standard for KYC Issuers and third-party dApps to enable on-chain verification, reduce privacy leaks, and foster trust in the confidentiality of KYC information. By addressing these issues, we aim to provide a streamlined, user-friendly KYC experience and facilitate wider adoption of decentralized applications.
+
+In essence, we seek to standardize the interface and structure of KYC metadata to enable dApps to verify user identities seamlessly across different issuers.
 
 ## Specification
 
@@ -134,7 +125,7 @@ This is the "Commitment Metadata JSON Schema" by _metadataURI.
 }
 ```
 
-The content corresponding to the `proofURI` here is intended to convince the public that the commitment itself corresponds to the correct information that follows, without any fabrication or tampering of user information. It is likely impossible to completely prevent fabrication. Even when using biometric identification technology like Worldcoin, there is still a need to trust that the identification machine itself is not fabricating information, so the trust model remains the same. Therefore, depending on the volume of data and the content that needs to be proven, different information can be included, hence the content can be arbitrary. The specific content is beyond the scope of this specification. Different KYC Holders will have different implementations.
+The content corresponding to the `proofURI` here is intended to convince the public that the commitment itself corresponds to the correct information that follows, without any fabrication or tampering of user information. It is likely impossible to completely prevent fabrication. Even when using biometric identification technology like Worldcoin, there is still a need to trust that the identification machine itself is not fabricating information, so the trust model remains the same. Therefore, depending on the volume of data and the content that needs to be proven, different information can be included, hence the content can be arbitrary. The specific content is beyond the scope of this specification. Different KYC Issuers will have different implementations.
 
 ### Standard Public Signals
 
@@ -186,6 +177,8 @@ The value of claimLogic can be referred to the following table:
 The operator of claimLogic can be expanded according to specific
 business scenarios, but I will not elaborate further here.
 
+Here `*` isn't mean infinite number, but a max number specified in the circuit.
+
 #### Polynomial Claim
 
 Here we propose a Polynomial Claim, but given its complexity, and the
@@ -219,13 +212,13 @@ need to be made in the ZK circuit:
 
 ### Individual store vs global registry(store vs registry)
 
-If we use a store, each KYC Holder can have their own independent
+If we use a store, each KYC Issuer can have their own independent
 contract, giving them complete control over the internal permission
 control of the contract. However, if we use a global registry, there are
 some trade-offs to consider. On the one hand, the advantage is that it
 provides a unique addressing system, where all Ethereum Compatible
 chains can use the same contract address. On the other hand, the
-disadvantage is that different KYC Holders may have varying permission
+disadvantage is that different KYC Issuers may have varying permission
 management requirements, or they may race to preempt a certain
 commitmentId, or some may want to implement commitment verification
 mechanism.
@@ -349,11 +342,11 @@ userId, appId, and a secret salt to generate a new userId.
   given to such users, with different claims being correlated together,
   the original privacy information may be disclosed.
 
-- In addition to the above two scenarios, KYC Holders usually possess the
+- In addition to the above two scenarios, KYC Issuers usually possess the
   capability to associate these identifiers. However, this is not the case
-  if the KYC Holder employs the **Mix Proof Pool**. This system empowers
+  if the KYC Issuer employs the **Mix Proof Pool**. This system empowers
   users to maintain a secret and generate their own group proof.
-  Consequently, it becomes impossible for the KYC Holder to associate the
+  Consequently, it becomes impossible for the KYC Issuer to associate the
   user with the group identifier. This topic extends beyond the scope of
   this standard. For more details, please refer to the following link:
   [Mix Proof Pool](https://github.com/OKX/zkkycpoc#mix-proof-pool).
